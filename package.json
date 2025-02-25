@@ -4,7 +4,7 @@
  "private": true,
  "scripts": {
   "dev": "next dev --turbopack",
-  "build": "next build --no-lint",
+  "build": "NODEJS_VERSION=18.17.0 NODE_ENV=production next build --no-lint",
   "start": "next start",
   "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
  },
