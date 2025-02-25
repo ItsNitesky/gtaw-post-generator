@@ -18,7 +18,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true
   },
-  output: 'standalone',
+  compress: true,
+  swcMinify: true,
+  output: 'export',
   experimental: {
     missingSuspenseWithCSRBailout: false
   }
