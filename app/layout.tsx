@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import { Link } from "@heroui/link";
@@ -34,6 +35,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  noStore();
+  
   return (
     <html suppressHydrationWarning lang="en">
       <head>

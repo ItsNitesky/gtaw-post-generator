@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import * as React from "react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +10,8 @@ export default function GeneratorLayout({
 }: {
   children: React.ReactNode;
 }) {
+  noStore();
+
   return (
     <div className="relative w-full min-h-screen flex flex-col">
       {/* Background image */}
