@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { Suspense } from "react";
 
+export const dynamic = 'force-dynamic'
+
 export default function Error({
   error,
   reset,
