@@ -1,13 +1,16 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import * as React from "react";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
-import IncidentReport from "./components/IncidentReport";
-import PatrolLog from "./components/PatrolLog";
-import UseOfForce from "./components/UseOfForce";
 import { trackEvent } from '@/utils/analytics';
-import { ChangelogModal } from "./components/ChangelogModal";
+
+// Dynamically import components with no SSR
+const IncidentReport = dynamic(() => import("./components/IncidentReport"), { ssr: false });
+const PatrolLog = dynamic(() => import("./components/PatrolLog"), { ssr: false });
+const UseOfForce = dynamic(() => import("./components/UseOfForce"), { ssr: false });
+const ChangelogModal = dynamic(() => import("./components/ChangelogModal").then(mod => mod.ChangelogModal), { ssr: false });
 
 export type FormType = "incident" | "patrol" | "uof" | "evaluation" | "disciplinary" | "timeoff" | "equipment";
 
@@ -199,108 +202,102 @@ export default function ProtechPage() {
   };
 
   return (
-    <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-lg">Loading...</div>
-      </div>
-    }>
-      <div className="relative z-10 container mx-auto flex-1 flex flex-col">
-        <div className="flex flex-col items-center gap-8 py-12">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-24 h-24 relative">
-              <Image
-                src="/images/protech-logo.png"
-                alt="ProTech Logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div className="text-center">
-              <h1 className="text-3xl font-heading font-bold">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-violet-500 animate-gradient">
-                  ProTech
-                </span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-400 dark:from-zinc-300 dark:to-zinc-400">
-                  {" "}Report Generator
-                </span>
-              </h1>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Create incident reports, use of force reports, and more
-              </p>
-              <div className="mt-4 flex items-center justify-center gap-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <p className="text-xs font-mono text-zinc-400">
-                    UTC: {currentUTC}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setIsChangelogOpen(true)}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-zinc-400 hover:bg-white/10 transition-colors"
-                >
-                  Version 1.0.0
-                </button>
+    <div className="relative z-10 container mx-auto flex-1 flex flex-col">
+      <div className="flex flex-col items-center gap-8 py-12">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-24 h-24 relative">
+            <Image
+              src="/images/protech-logo.png"
+              alt="ProTech Logo"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div className="text-center">
+            <h1 className="text-3xl font-heading font-bold">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-violet-500 animate-gradient">
+                ProTech
+              </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-400 dark:from-zinc-300 dark:to-zinc-400">
+                {" "}Report Generator
+              </span>
+            </h1>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              Create incident reports, use of force reports, and more
+            </p>
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <p className="text-xs font-mono text-zinc-400">
+                  UTC: {currentUTC}
+                </p>
               </div>
+              <button
+                onClick={() => setIsChangelogOpen(true)}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-zinc-400 hover:bg-white/10 transition-colors"
+              >
+                Version 1.0.0
+              </button>
             </div>
           </div>
+        </div>
 
-          {!selectedForm ? (
-            <div className="w-full max-w-4xl space-y-8">
-              {reports.map((category) => (
-                <div key={category.category} className="space-y-4">
-                  <h2 className="text-xl font-medium text-white/80">{category.category}</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {category.items.map((report) => (
-                      <button
-                        key={report.id}
-                        onClick={() => handleFormSelect(report.id)}
-                        className="group relative overflow-hidden rounded-xl p-6 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-left"
-                      >
-                        <div className="text-2xl mb-2">{report.icon}</div>
-                        <h3 className="text-lg font-medium text-white mb-1">{report.name}</h3>
-                        <p className="text-sm text-zinc-400">{report.description}</p>
-                      </button>
-                    ))}
-                  </div>
+        {!selectedForm ? (
+          <div className="w-full max-w-4xl space-y-8">
+            {reports.map((category) => (
+              <div key={category.category} className="space-y-4">
+                <h2 className="text-xl font-medium text-white/80">{category.category}</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {category.items.map((report) => (
+                    <button
+                      key={report.id}
+                      onClick={() => handleFormSelect(report.id)}
+                      className="group relative overflow-hidden rounded-xl p-6 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-left"
+                    >
+                      <div className="text-2xl mb-2">{report.icon}</div>
+                      <h3 className="text-lg font-medium text-white mb-1">{report.name}</h3>
+                      <p className="text-sm text-zinc-400">{report.description}</p>
+                    </button>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="w-full flex flex-col items-center gap-8">
-              <button
-                onClick={() => setSelectedForm(null)}
-                className="text-zinc-400 hover:text-white transition-colors"
-              >
-                ← Back to Reports
-              </button>
-              {selectedForm === "incident" && (
-                <IncidentReport
-                  formData={incidentFormData}
-                  setFormData={setIncidentFormData}
-                  onSwitchForm={setSelectedForm}
-                />
-              )}
-              {selectedForm === "patrol" && <PatrolLog />}
-              {selectedForm === "uof" && <UseOfForce />}
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="text-center py-6 mt-auto">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Made with{" "}
-            <span className="text-[#ff0000] dark:text-[#ff3333] text-base font-bold animate-heart-pulse inline-block">❤</span>
-            {" "}by <a href="https://forum.gta.world/en/profile/50132-brant/" target="_blank" className="hover:text-fuchsia-400 transition-colors">Brant</a> for the GTA World Community
-          </p>
-        </div>
-
-        <ChangelogModal
-          isOpen={isChangelogOpen}
-          onClose={() => setIsChangelogOpen(false)}
-          changelog={changelog}
-        />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="w-full flex flex-col items-center gap-8">
+            <button
+              onClick={() => setSelectedForm(null)}
+              className="text-zinc-400 hover:text-white transition-colors"
+            >
+              ← Back to Reports
+            </button>
+            {selectedForm === "incident" && (
+              <IncidentReport
+                formData={incidentFormData}
+                setFormData={setIncidentFormData}
+                onSwitchForm={setSelectedForm}
+              />
+            )}
+            {selectedForm === "patrol" && <PatrolLog />}
+            {selectedForm === "uof" && <UseOfForce />}
+          </div>
+        )}
       </div>
-    </Suspense>
+
+      {/* Footer */}
+      <div className="text-center py-6 mt-auto">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          Made with{" "}
+          <span className="text-[#ff0000] dark:text-[#ff3333] text-base font-bold animate-heart-pulse inline-block">❤</span>
+          {" "}by <a href="https://forum.gta.world/en/profile/50132-brant/" target="_blank" className="hover:text-fuchsia-400 transition-colors">Brant</a> for the GTA World Community
+        </p>
+      </div>
+
+      <ChangelogModal
+        isOpen={isChangelogOpen}
+        onClose={() => setIsChangelogOpen(false)}
+        changelog={changelog}
+      />
+    </div>
   );
 } 
