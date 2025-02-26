@@ -11,9 +11,10 @@ const IncidentReport = dynamic(() => import("./components/IncidentReport"), { ss
 const PatrolLog = dynamic(() => import("./components/PatrolLog"), { ssr: false });
 const UseOfForce = dynamic(() => import("./components/UseOfForce"), { ssr: false });
 const PersonnelFile = dynamic(() => import("./components/PersonnelFile"), { ssr: false });
+const Assignments = dynamic(() => import("./components/Assignments"), { ssr: false });
 const ChangelogModal = dynamic(() => import("./components/ChangelogModal").then(mod => mod.ChangelogModal), { ssr: false });
 
-export type FormType = "incident" | "patrol" | "uof" | "personnel" | "evaluation" | "disciplinary" | "timeoff" | "equipment";
+export type FormType = "incident" | "patrol" | "uof" | "personnel" | "assignments" | "evaluation" | "disciplinary" | "timeoff" | "equipment";
 
 export type IncidentFormData = {
   employeeName: string;
@@ -282,6 +283,7 @@ export default function ProtechPage() {
             {selectedForm === "patrol" && <PatrolLog />}
             {selectedForm === "uof" && <UseOfForce />}
             {selectedForm === "personnel" && <PersonnelFile />}
+            {selectedForm === "assignments" && <Assignments />}
           </div>
         )}
       </div>

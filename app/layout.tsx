@@ -10,6 +10,7 @@ import { siteConfig } from "../config/site";
 import { fontSans, fontHeading } from "../config/fonts";
 import { Navbar } from "../components/navbar";
 import GoogleAnalytics from '../components/GoogleAnalytics';
+import { PHProvider } from './providers'
 
 export const metadata: Metadata = {
   title: {
@@ -48,13 +49,15 @@ export default function RootLayout({
           fontHeading.variable
         )}
       >
-        <Providers>
-          <div className="relative flex flex-col h-screen">
-            <main className="flex-grow w-full">
-              {children}
-            </main>
-          </div>
-        </Providers>
+        <PHProvider>
+          <Providers>
+            <div className="relative flex flex-col h-screen">
+              <main className="flex-grow w-full">
+                {children}
+              </main>
+            </div>
+          </Providers>
+        </PHProvider>
       </body>
     </html>
   );
