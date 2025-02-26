@@ -1,16 +1,15 @@
 import { unstable_noStore as noStore } from 'next/cache';
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { Metadata, Viewport } from "next";
 import { Link } from "@heroui/link";
 import clsx from "clsx";
 import { Suspense } from "react";
 
 import { Providers } from "./providers";
-
-import { siteConfig } from "@/config/site";
-import { fontSans, fontHeading } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
-import GoogleAnalytics from '@/components/GoogleAnalytics';
+import { siteConfig } from "../config/site";
+import { fontSans, fontHeading } from "../config/fonts";
+import { Navbar } from "../components/navbar";
+import GoogleAnalytics from '../components/GoogleAnalytics';
 
 export const metadata: Metadata = {
   title: {
