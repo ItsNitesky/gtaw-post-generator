@@ -379,7 +379,11 @@ ${formData.signature}
             <div className="flex justify-between items-center mb-2">
               <p className="text-sm font-medium text-zinc-400">Topic Title</p>
               <button 
-                onClick={() => navigator.clipboard.writeText(generateTopicTitle())}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigator.clipboard.writeText(generateTopicTitle());
+                }}
                 className="text-xs text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
               >
                 Copy to Clipboard

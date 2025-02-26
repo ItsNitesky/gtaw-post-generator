@@ -14,6 +14,8 @@
   - Notification reminding user to submit a use of force report ***if lethal or non lethal force was utilized.***
   - Dropdown with pre-defined incident types. The selected incident type will be marked with an [X] in the check box within the generated bbcode.
 - Use of Force Report
+  - Added the ability to switch between main and supplemental use of force reports.
+  - Added removable form fields for involved parties.
 - Personnel File
 - Guided Patrol Report
 - Post Interview Log
