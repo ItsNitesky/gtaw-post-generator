@@ -9,6 +9,7 @@
   "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
  },
  "dependencies": {
+  "autoprefixer": "10.4.19",
   "@heroui/button": "2.2.13",
   "@heroui/code": "2.2.10",
   "@heroui/input": "2.4.13",
@@ -42,7 +43,6 @@
   "@types/react-dom": "18.3.0",
   "@typescript-eslint/eslint-plugin": "8.11.0",
   "@typescript-eslint/parser": "8.11.0",
-  "autoprefixer": "10.4.19",
   "eslint": "^8.57.0",
   "eslint-config-next": "15.0.4",
   "eslint-config-prettier": "9.1.0",
