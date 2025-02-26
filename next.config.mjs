@@ -21,6 +21,7 @@ const nextConfig = {
   compress: true,
   swcMinify: true,
   output: 'export',
+  distDir: 'out',
   experimental: {
     missingSuspenseWithCSRBailout: false
   }
