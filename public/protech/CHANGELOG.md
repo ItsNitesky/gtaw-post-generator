@@ -17,6 +17,7 @@
   - Added the ability to switch between main and supplemental use of force reports.
   - Added removable form fields for involved parties.
 - Personnel File
+  - Added Information icons next to certain fields. Hovering over these icons will provide additional instructions and information.
 - Guided Patrol Report
 - Post Interview Log
 - Fleet Service Requests
