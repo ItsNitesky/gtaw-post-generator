@@ -4,7 +4,7 @@
  "private": true,
  "scripts": {
   "dev": "next dev --turbopack",
-  "build": "rm -rf .next out && NODE_ENV=production next build && next export",
+  "build": "rm -rf .next out && NODE_ENV=production next build",
   "start": "next start",
   "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
  },
