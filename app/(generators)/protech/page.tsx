@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Image from 'next/image';
-import { trackEvent } from '@/utils/analytics';
+import { trackEvent } from '../../../utils/analytics';
 
 // Dynamically import components with no SSR
 const IncidentReport = dynamic(() => import("./components/IncidentReport"), { ssr: false });
