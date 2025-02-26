@@ -22,6 +22,7 @@ const nextConfig = {
   swcMinify: true,
   output: 'export',
   distDir: 'out',
+  trailingSlash: true,
   experimental: {
     missingSuspenseWithCSRBailout: false
   },
