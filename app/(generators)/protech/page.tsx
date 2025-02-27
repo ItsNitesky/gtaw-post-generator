@@ -12,9 +12,18 @@ const PatrolLog = dynamic(() => import("./components/PatrolLog"), { ssr: false }
 const UseOfForce = dynamic(() => import("./components/UseOfForce"), { ssr: false });
 const PersonnelFile = dynamic(() => import("./components/PersonnelFile"), { ssr: false });
 const Assignments = dynamic(() => import("./components/Assignments"), { ssr: false });
+const PatrolTask = dynamic(() => import("./components/PatrolTask"), { ssr: false });
+const PatrolTaskServiced = dynamic(() => import("./components/PatrolTaskServiced"), { ssr: false });
 const ChangelogModal = dynamic(() => import("./components/ChangelogModal").then(mod => mod.ChangelogModal), { ssr: false });
+const TraineeFile = dynamic(() => import("./components/TraineeFile"), { ssr: false });
+const GuidedAssignment = dynamic(() => import("./components/GuidedAssignment"), { ssr: false });
+const GuidedPatrol = dynamic(() => import("./components/GuidedPatrol"), { ssr: false });
+const PostInterviewLog = dynamic(() => import("./components/PostInterviewLog"), { ssr: false });
+const FleetService = dynamic(() => import("./components/FleetService"), { ssr: false });
+const TechnicianRequest = dynamic(() => import("./components/TechnicianRequest"), { ssr: false });
+const TowContract = dynamic(() => import("./components/TowContract"), { ssr: false });
 
-export type FormType = "incident" | "patrol" | "uof" | "personnel" | "assignments" | "evaluation" | "disciplinary" | "timeoff" | "equipment";
+export type FormType = "incident" | "patrol" | "uof" | "personnel" | "assignments" | "patroltask" | "patrol_task_serviced" | "trainee_file" | "guided_assignment" | "guided_patrol" | "post_interview" | "fleet_service" | "evaluation" | "disciplinary" | "timeoff" | "equipment" | "technician" | "tow_contract";
 
 export type IncidentFormData = {
   employeeName: string;
@@ -127,9 +136,9 @@ export default function ProtechPage() {
           icon: '📋'
         },
         {
-          id: 'patrol_task',
+          id: 'patroltask',
           name: 'Patrol Task',
-          description: 'Submit new patrol tasks for service',
+          description: 'Create a patrol task for patrol units to service while conducting their duties.',
           icon: '🎯'
         },
         {
@@ -284,6 +293,15 @@ export default function ProtechPage() {
             {selectedForm === "uof" && <UseOfForce />}
             {selectedForm === "personnel" && <PersonnelFile />}
             {selectedForm === "assignments" && <Assignments />}
+            {selectedForm === "patroltask" && <PatrolTask />}
+            {selectedForm === "patrol_task_serviced" && <PatrolTaskServiced />}
+            {selectedForm === "trainee_file" && <TraineeFile />}
+            {selectedForm === "guided_assignment" && <GuidedAssignment />}
+            {selectedForm === "guided_patrol" && <GuidedPatrol />}
+            {selectedForm === "post_interview" && <PostInterviewLog />}
+            {selectedForm === "fleet_service" && <FleetService />}
+            {selectedForm === "technician" && <TechnicianRequest />}
+            {selectedForm === "tow_contract" && <TowContract />}
           </div>
         )}
       </div>
