@@ -45,17 +45,17 @@ export default function TowContract() {
 
   const checkboxClass = `
     appearance-none
-    w-5 h-5 
-    rounded 
-    border-2 border-white/20 
-    bg-white/5 
+    w-5 h-5
+    rounded
+    border-2 border-white/20
+    bg-white/5
     checked:bg-gradient-to-r checked:from-fuchsia-500 checked:to-fuchsia-600
     checked:border-transparent
     hover:border-fuchsia-400
     focus:outline-none
-    focus:ring-2 
-    focus:ring-fuchsia-500/50 
-    focus:ring-offset-0 
+    focus:ring-2
+    focus:ring-fuchsia-500/50
+    focus:ring-offset-0
     transition-all
     cursor-pointer
     relative
@@ -98,6 +98,19 @@ export default function TowContract() {
     }));
   };
 
+  const formatDateTime = (dateTimeString: string) => {
+    if (!dateTimeString) return '';
+
+    const date = new Date(dateTimeString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
+
   const generateBBCode = () => {
     const serviceTypes = Object.entries(formData.serviceTypes)
       .filter(([_, checked]) => checked)
@@ -117,7 +130,7 @@ export default function TowContract() {
 [size=150][b]Personal Information:[/b][/size]
 [hr]
 [b]Full Name and Badge:[/b] ${formData.employeeInfo}
-[b]Date and Time:[/b] ${formData.dateTime}
+[b]Date and Time:[/b] ${formatDateTime(formData.dateTime)}
 [hr]
 [size=150][b]Vehicle Details:[/b][/size]
 [hr]
@@ -179,11 +192,10 @@ ${formData.requestedBy}
                 className={inputClass}
               />
               <input
-                type="text"
+                type="datetime-local"
                 name="dateTime"
                 value={formData.dateTime}
                 onChange={handleChange}
-                placeholder="Date and Time"
                 className={inputClass}
               />
             </div>
@@ -344,7 +356,7 @@ ${formData.requestedBy}
           <div className="p-4 bg-white/5 rounded-lg border border-white/10">
             <div className="flex justify-between items-center mb-2">
               <p className="text-sm font-medium text-zinc-400">Topic Title</p>
-              <button 
+              <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -370,7 +382,7 @@ ${formData.requestedBy}
               <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer"></span>
               Copy BBCode
             </button>
-            
+
             <a
               href="https://protech.gta.world/forum/posting.php?mode=post&f=25"
               target="_blank"
@@ -384,4 +396,4 @@ ${formData.requestedBy}
       </form>
     </div>
   );
-} 
+}

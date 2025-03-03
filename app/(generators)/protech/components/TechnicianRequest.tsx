@@ -32,7 +32,8 @@ const ALARM_PRICES = {
 const INSTALLATION_FEE = 3000;
 
 const EQUIPMENT_LIST = {
-  "ProTech 4K 360° Dome Interior CCTV Camera": 15000,
+  "Existing Alarm Box Linkage": 6000,
+  "* ProTech 4K 360° Dome Interior CCTV Camera": 15000,
   "ProTech 4K Fixed Exterior CCTV Camera": 1000,
   "ProTech 1080p 360° Dome Exterior CCTV Camera": 1500,
   "ProTech 4K 360° Dome Exterior CCTV Camera": 15000,
@@ -43,9 +44,9 @@ const EQUIPMENT_LIST = {
   "ProTech Property Alarm Remote": 3000,
   "ProTech Electronic Door Lock": 1000,
   "ProTech Handheld Metal Detector": 1500,
-  "ProTech Walkthrough Metal Detector": 20000,
-  "ProTech Advanced Front Door Lock": 17000,
-  "ProTech 9-Lock Advanced Safe": 28000
+  "* ProTech Walkthrough Metal Detector": 20000,
+  "* ProTech Advanced Front Door Lock": 17000,
+  "* ProTech 9-Lock Advanced Safe": 28000
 } as const;
 
 type FormMode = 'request' | 'conclusion';
@@ -86,6 +87,8 @@ export default function TechnicianRequest() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if (name === 'eomPoints') return;
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -136,7 +139,7 @@ export default function TechnicianRequest() {
   const generateBBCode = () => {
     const alarmPrice = getAlarmPrice();
     const bankTransferTotal = getEquipmentTotal() + INSTALLATION_FEE;
-    
+
     return `[divbox=#000000]
 [img]https://i.imgur.com/kWcSahD.png[/img]
 [/divbox]
@@ -145,24 +148,23 @@ export default function TechnicianRequest() {
 
 [centre][size=120]TECHNICAL SERVICES DEPARTMENT[/size][/centre]
 [centre][size=200][b]INSTALLATION & SERVICE OVERVIEW[/b][/size][/centre]
- 
+
 [centre][img]https://i.imgur.com/uTQR5f6.png[/img][/centre]
 
 [divbox=#ffffff]
 [sup][size=100][color=#FF0000]To be completed by the request handling employee.[/color][/size][/sup]
 [centre][b][u][size=150]A. Request field[/size][/u][/b][/centre]
- 
+
 [b][u]Client Information[/u][/b]
 [indent]15[/indent][b]Location / Address:[/b] ${formData.location}
 [indent]15[/indent][b]Full Name:[/b] ${formData.clientName}
 [indent]15[/indent][b]Phone Number:[/b] ${formData.phoneNumber}
 [indent]15[/indent][b]Patrols:[/b] ${formData.hasPatrols}
 [indent]15[/indent][b]Client type:[/b] ${formData.clientType}
-[indent]15[/indent][b]Availability:[/b]
-[quote]${formData.availability}[/quote]
+[indent]15[/indent][b]Availability:[/b] ${formData.availability}
 [indent]15[/indent][b]((Forum username:))[/b] ${formData.forumUsername}
 [indent]15[/indent][b]((Discord username:))[/b] ${formData.discordUsername}
-[indent]15[/indent][b]Points Toward [url=https://protech.gta.world/forum/viewtopic.php?t=61]Employee of the Month:[/url][/b] ${formData.eomPoints}
+[indent]15[/indent][b]Points Toward [url=https://protech.gta.world/forum/viewtopic.php?t=61]Employee of the Month:[/url][/b] 2
 [hr]
 
 [centre][b]Additional information:[/b][/centre]
@@ -180,7 +182,7 @@ export default function TechnicianRequest() {
 ${formData.alarmSubscription || "None"} - $${alarmPrice.toLocaleString()}
 [b]TOTAL:[/b] [b]$${alarmPrice.toLocaleString()}[/b]
 [color=#0076B1][sup]⮩((This part is to be paid to the script via /secinstall command)).[/sup][/color]
- 
+
 [indent]2[/indent][b][u]Equipment & installation[/u][/b]
 ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quantity} | $${(EQUIPMENT_LIST[item.name as keyof typeof EQUIPMENT_LIST] * item.quantity).toLocaleString()}`).join('\n')}
 
@@ -220,8 +222,8 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
               type="button"
               onClick={() => setMode('request')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                mode === 'request' 
-                  ? 'bg-fuchsia-500 text-white' 
+                mode === 'request'
+                  ? 'bg-fuchsia-500 text-white'
                   : 'bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white'
               }`}
             >
@@ -241,7 +243,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
           </div>
         </div>
         <p className="text-sm text-zinc-400">
-          {mode === 'request' 
+          {mode === 'request'
             ? 'Document installation and service requests for the Technical Services Department.'
             : 'Document the conclusion of a technical service request.'}
         </p>
@@ -354,10 +356,9 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
                 <input
                   type="text"
                   name="eomPoints"
-                  value={formData.eomPoints}
-                  onChange={handleChange}
-                  placeholder="Employee of the Month Points"
-                  className={inputClass}
+                  value="2"
+                  disabled
+                  className={`${inputClass} cursor-not-allowed opacity-70`}
                 />
                 <textarea
                   name="additionalInfo"
@@ -388,7 +389,6 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
                 >
                   <option value="" className="bg-[#1a1a1a] text-zinc-400">Select Alarm Subscription</option>
                   <option value="None" className="bg-[#1a1a1a]">None</option>
-                  <option value="Existing Alarm Box Linkage" className="bg-[#1a1a1a]">Existing Alarm Box Linkage - $6,000</option>
                   <option value="Red Package Wiwang Alarm Kit" className="bg-[#1a1a1a]">Red Package Wiwang Alarm Kit - $6,400</option>
                   <option value="Orange Package Tenshun Alarm Kit" className="bg-[#1a1a1a]">Orange Package Tenshun Alarm Kit - $8,000</option>
                   <option value="Blue Package Toshi Alarm Kit" className="bg-[#1a1a1a]">Blue Package Toshi Alarm Kit - $12,000</option>
@@ -404,7 +404,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
                   <span className="w-8 h-8 rounded-lg bg-fuchsia-500/20 flex items-center justify-center text-fuchsia-300">4</span>
                   <h3>Equipment</h3>
                 </div>
-                <p className="text-sm text-zinc-400 ml-10">Select equipment to be installed.</p>
+                <p className="text-sm text-zinc-400 ml-10">Select equipment to be installed. Equipment marked with an asterisk (*) is collected from the /pinv rather than creating items in the business. Refer to the <a href="https://protech.gta.world/forum/viewtopic.php?t=22">Services page</a> for more information.</p>
               </div>
 
               <div className="space-y-4 ml-10">
@@ -438,7 +438,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
                     </button>
                   </div>
                 ))}
-                
+
                 <button
                   type="button"
                   onClick={handleAddEquipment}
@@ -457,7 +457,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
                         <span className="text-white">${getAlarmPrice().toLocaleString()}</span>
                       </div>
                     </div>
-                    
+
                     {/* Bank Transfer Section */}
                     <div className="pt-4 border-t border-white/10">
                       <div className="text-sm text-zinc-400 mb-2">To be paid to routing #020082468 (bank transfer):</div>
@@ -523,7 +523,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
             <div className="p-4 bg-white/5 rounded-lg border border-white/10">
               <div className="flex justify-between items-center mb-2">
                 <p className="text-sm font-medium text-zinc-400">Topic Title</p>
-                <button 
+                <button
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
@@ -550,7 +550,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
               <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer"></span>
               Copy BBCode
             </button>
-            
+
             <a
               href="https://protech.gta.world/forum/posting.php?mode=post&f=25"
               target="_blank"
@@ -564,4 +564,4 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
       </form>
     </div>
   );
-} 
+}

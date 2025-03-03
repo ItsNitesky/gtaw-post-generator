@@ -2,13 +2,26 @@
 import * as React from "react";
 import { useState } from "react";
 import type { FormType, IncidentFormData } from '../page';
-// Move all the incident report form logic and UI here 
+// Move all the incident report form logic and UI here
 
 interface IncidentReportProps {
   formData: IncidentFormData;
   setFormData: (data: IncidentFormData) => void;
   onSwitchForm: (form: FormType) => void;
 }
+
+const formatDateTime = (dateTimeString: string) => {
+  if (!dateTimeString) return '';
+
+  const date = new Date(dateTimeString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+};
 
 export default function IncidentReport({ formData, setFormData, onSwitchForm }: IncidentReportProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -30,7 +43,7 @@ export default function IncidentReport({ formData, setFormData, onSwitchForm }: 
 
 [b]Employee Rank and Full Name:[/b] ${formData.employeeName}
 [b]Patrol Unit:[/b] ${formData.patrolUnit}
-[b]Date and Time of the Incident:[/b] ${formData.dateTime}
+[b]Date and Time of the Incident:[/b] ${formatDateTime(formData.dateTime)}
 [b]Location of the Incident:[/b] ${formData.location}
 
 [hr]
@@ -54,7 +67,7 @@ ${formData.incidentReport}
 
 [hr]
 
-[b]Actions Taken:[/b] 
+[b]Actions Taken:[/b]
 [${formData.ownerOnScene ? "x" : " "}] Owner On Scene
 [${formData.ownerNotified ? "x" : " "}] Owner Notified via SMS/Call
 [${formData.lawEnforcementNotified ? "x" : " "}] Law Enforcement Notified
@@ -77,9 +90,9 @@ ${formData.signature}
 
   const generateTopicTitle = () => {
     if (!formData.location || !formData.dateTime || !formData.patrolUnit) return "";
-    
+
     const address = formData.location.split(',')[0].trim();
-    
+
     // Format the date from the datetime-local input
     const date = new Date(formData.dateTime);
     const day = date.getDate().toString().padStart(2, '0');
@@ -100,17 +113,17 @@ ${formData.signature}
 
   const checkboxClass = `
     appearance-none
-    w-5 h-5 
-    rounded 
-    border-2 border-white/20 
-    bg-white/5 
+    w-5 h-5
+    rounded
+    border-2 border-white/20
+    bg-white/5
     checked:bg-gradient-to-r checked:from-fuchsia-500 checked:to-fuchsia-600
     checked:border-transparent
     hover:border-fuchsia-400
     focus:outline-none
-    focus:ring-2 
-    focus:ring-fuchsia-500/50 
-    focus:ring-offset-0 
+    focus:ring-2
+    focus:ring-fuchsia-500/50
+    focus:ring-offset-0
     transition-all
     cursor-pointer
     relative
@@ -215,7 +228,7 @@ ${formData.signature}
               </svg>
             </div>
           </div>
-          
+
           {formData.situation === 'other' && (
             <input
               type="text"
@@ -340,7 +353,7 @@ ${formData.signature}
                   <p className="text-sm font-medium text-red-400">Important Notice</p>
                   <p className="text-sm text-zinc-300 mt-1">
                     You must fill out a{' '}
-                    <button 
+                    <button
                       onClick={() => onSwitchForm("uof")}
                       className="text-red-400 hover:text-red-300 transition-colors underline focus:outline-none font-medium"
                     >
@@ -378,7 +391,7 @@ ${formData.signature}
           <div className="p-4 bg-white/5 rounded-lg border border-white/10">
             <div className="flex justify-between items-center mb-2">
               <p className="text-sm font-medium text-zinc-400">Topic Title</p>
-              <button 
+              <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -404,7 +417,7 @@ ${formData.signature}
               <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer"></span>
               Copy BBCode
             </button>
-            
+
             <a
               href="https://protech.gta.world/forum/posting.php?mode=post&f=17"
               target="_blank"
@@ -418,4 +431,4 @@ ${formData.signature}
       </form>
     </div>
   );
-} 
+}

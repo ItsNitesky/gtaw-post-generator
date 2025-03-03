@@ -43,6 +43,19 @@ interface GuidedPatrolData {
   date: string;
 }
 
+const formatDateTime = (dateTimeString: string) => {
+  if (!dateTimeString) return '';
+
+  const date = new Date(dateTimeString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+};
+
 export default function GuidedPatrol() {
   const [formData, setFormData] = useState<GuidedPatrolData>({
     traineeName: "",
@@ -86,7 +99,7 @@ export default function GuidedPatrol() {
   const handleIncidentTimeChange = (index: number, time: string) => {
     setFormData(prev => ({
       ...prev,
-      incidents: prev.incidents.map((incident, i) => 
+      incidents: prev.incidents.map((incident, i) =>
         i === index ? { ...incident, time } : incident
       )
     }));
@@ -95,7 +108,7 @@ export default function GuidedPatrol() {
   const handleIncidentChange = (index: number, description: string) => {
     setFormData(prev => ({
       ...prev,
-      incidents: prev.incidents.map((incident, i) => 
+      incidents: prev.incidents.map((incident, i) =>
         i === index ? { ...incident, description } : incident
       )
     }));
@@ -251,10 +264,9 @@ ${formData.incidents.map(incident => incident.time || incident.description ? `[l
 [/divbox]
 
 [legend=#BF0000, Training Instructor Signature]
-[size=110]I, ${formData.instructorName}, have completed a Guided Patrol with Trainee Security Officer ${formData.traineeName} on ${formData.date}. 
+[size=110]I, ${formData.instructorName}, have completed a Guided Patrol with Trainee Security Officer ${formData.traineeName} on ${formatDateTime(formData.date)}.
 I hereby affirm that the aforementioned evaluation scale accurately reflects the performance of the trainee security officer.[/size]
 [/legend]
-
 [/divbox]`;
   };
 
@@ -277,7 +289,7 @@ I hereby affirm that the aforementioned evaluation scale accurately reflects the
             </div>
             <p className="text-sm text-zinc-500 ml-10">Details of the trainee and instructor.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <input
               type="text"
@@ -323,7 +335,7 @@ I hereby affirm that the aforementioned evaluation scale accurately reflects the
             </div>
             <p className="text-sm text-zinc-500 ml-10">Record of incidents and tasks during the patrol.</p>
           </div>
-          
+
           <div className="space-y-4">
             {formData.incidents.map((incident, index) => (
               <div key={index} className="flex gap-4 items-start group">
@@ -559,13 +571,12 @@ I hereby affirm that the aforementioned evaluation scale accurately reflects the
               <h3>Instructor Acknowledgment</h3>
             </div>
           </div>
-          
+
           <input
-            type="text"
+            type="datetime-local"
             name="date"
             value={formData.date}
             onChange={handleChange}
-            placeholder="Date (DD/MMM/YYYY)"
             className={inputClass}
           />
         </div>
@@ -582,7 +593,7 @@ I hereby affirm that the aforementioned evaluation scale accurately reflects the
             <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer"></span>
             Copy BBCode
           </button>
-          
+
           <a
             href="https://protech.gta.world/forum/viewforum.php?f=91"
             target="_blank"
@@ -598,16 +609,16 @@ I hereby affirm that the aforementioned evaluation scale accurately reflects the
 }
 
 // Add this helper component for rating rows
-function RatingRow({ 
-  label, 
-  field, 
-  value, 
-  onChange 
-}: { 
-  label: string; 
-  field: keyof EvaluationRating; 
-  value: number | null; 
-  onChange: (field: keyof EvaluationRating, value: number | null) => void; 
+function RatingRow({
+  label,
+  field,
+  value,
+  onChange
+}: {
+  label: string;
+  field: keyof EvaluationRating;
+  value: number | null;
+  onChange: (field: keyof EvaluationRating, value: number | null) => void;
 }) {
   return (
     <div className="grid grid-cols-[1fr,auto] gap-4 items-center">
@@ -630,4 +641,4 @@ function RatingRow({
       </div>
     </div>
   );
-} 
+}

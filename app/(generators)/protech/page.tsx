@@ -240,7 +240,7 @@ export default function ProtechPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <p className="text-xs font-mono text-zinc-400">
-                  UTC: {currentUTC}
+                  UTC / Server Time: {currentUTC}
                 </p>
               </div>
               <button
@@ -322,4 +322,4 @@ export default function ProtechPage() {
       />
     </div>
   );
-} 
+}
