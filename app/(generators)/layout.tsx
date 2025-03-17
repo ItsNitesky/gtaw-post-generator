@@ -17,7 +17,7 @@ export default function GeneratorLayout({
       {/* Background image */}
       <div className="fixed inset-0">
         <Image
-          src="/images/resized.jpg"
+          src="/images/image.png"
           alt="Background"
           fill
           quality={50}
@@ -31,14 +31,14 @@ export default function GeneratorLayout({
 
       {/* Animated overlay */}
       <div className="fixed inset-0 pointer-events-none">
-        <div 
-          className="absolute inset-0 bg-gradient-to-tr from-violet-500/10 via-fuchsia-500/10 to-violet-500/10 animate-float" 
+        <div
+          className="absolute inset-0 bg-gradient-to-tr from-violet-500/10 via-fuchsia-500/10 to-violet-500/10 animate-float"
         />
       </div>
 
       {/* Background gradient */}
       <div className="fixed inset-0 bg-gradient-to-b from-zinc-50/70 to-white/70 dark:from-background/95 dark:to-background/75" />
-      
+
       {/* Decorative elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-[1000px] h-[1000px] -top-40 -right-20 bg-violet-500/20 dark:bg-violet-500/30 rounded-full blur-[100px] opacity-20" />
@@ -46,7 +46,7 @@ export default function GeneratorLayout({
       </div>
 
       {/* Back Button */}
-      <Link 
+      <Link
         href="/"
         className="fixed top-6 left-6 z-20 flex items-center gap-2 text-zinc-600 dark:text-zinc-400 hover:text-fuchsia-500 dark:hover:text-fuchsia-400 transition-colors"
       >
@@ -55,7 +55,7 @@ export default function GeneratorLayout({
       </Link>
 
       {/* Content with Suspense */}
-      <Suspense 
+      <Suspense
         fallback={
           <div className="relative z-10 flex min-h-screen items-center justify-center">
             <div className="text-lg">Loading...</div>
@@ -66,4 +66,4 @@ export default function GeneratorLayout({
       </Suspense>
     </div>
   );
-} 
+}

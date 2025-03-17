@@ -26,7 +26,7 @@ export default function Home() {
       <div className="relative w-full h-screen flex flex-col overflow-hidden">
         <div className="fixed inset-0">
           <Image
-            src="/images/resized.jpg"
+            src="/images/image.png"
             alt="Background"
             fill
             quality={50}
