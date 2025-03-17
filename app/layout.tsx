@@ -1,15 +1,14 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import "../styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
 import clsx from "clsx";
-import { Suspense } from "react";
 
-import { Providers } from "./providers";
 import { siteConfig } from "../config/site";
 import { fontSans, fontHeading } from "../config/fonts";
-import { Navbar } from "../components/navbar";
 import GoogleAnalytics from '../components/GoogleAnalytics';
+
+import { AuthProvider } from './components/Providers';
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   noStore();
-  
+
   return (
     <html suppressHydrationWarning lang="en">
       <head>
@@ -48,13 +47,15 @@ export default function RootLayout({
           fontHeading.variable
         )}
       >
-        <Providers>
-          <div className="relative flex flex-col h-screen">
-            <main className="flex-grow w-full">
-              {children}
-            </main>
-          </div>
-        </Providers>
+        <AuthProvider>
+          <Providers>
+            <div className="relative flex flex-col h-screen">
+              <main className="flex-grow w-full">
+                {children}
+              </main>
+            </div>
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

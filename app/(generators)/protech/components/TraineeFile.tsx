@@ -74,12 +74,14 @@ export default function TraineeFile() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+
     if (name.includes('.')) {
       const [section, index, field] = name.split('.');
+
       if (section === 'guidedPatrols' || section === 'assignments') {
         setFormData(prev => ({
           ...prev,
-          [section]: prev[section].map((item, i) => 
+          [section]: prev[section].map((item, i) =>
             i === parseInt(index) ? { ...item, [field]: value } : item
           )
         }));
@@ -90,6 +92,8 @@ export default function TraineeFile() {
         [name]: type === 'checkbox' ? checked : value
       }));
     }
+
+    return;
   };
 
   const generateBBCode = () => {
@@ -108,19 +112,19 @@ export default function TraineeFile() {
 
 [legend=#BF0000, Training Progress]
 [size=115][b]Induction[/b] completed by ${formData.guidingOfficer} on ${formData.inductionDate}
-[list] 
+[list]
 [*] The trainee received an ID card/badge for access: [${formData.hasIdCard ? 'cbc' : 'cb'}]
 [*] The trainee received the necessary equipment: [${formData.hasEquipment ? 'cbc' : 'cb'}]
 [*] The trainee was given a tour around HQ: [${formData.hasTour ? 'cbc' : 'cb'}]
 [/list]
 [b]Amount of Guided Patrols[/b]:
 [list]
-${formData.guidedPatrols.map(patrol => 
+${formData.guidedPatrols.map(patrol =>
   `[*]${patrol.date} - Duration: ${patrol.duration} - ${patrol.officer}`
 ).join('\n')}
 [/list]
 [b]Completed Assignments[/b]:
-[list]${formData.assignments.map(assignment => 
+[list]${formData.assignments.map(assignment =>
   `[*]${assignment.date} - ${assignment.location} - ${assignment.seniorOnScene}`
 ).join('\n')}
 [/list]
@@ -150,17 +154,17 @@ Handling Instructor: ${formData.patrolEvalInstructor}
   const inputClass = "w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent";
   const checkboxClass = `
     appearance-none
-    w-5 h-5 
-    rounded 
-    border-2 border-white/20 
-    bg-white/5 
+    w-5 h-5
+    rounded
+    border-2 border-white/20
+    bg-white/5
     checked:bg-gradient-to-r checked:from-fuchsia-500 checked:to-fuchsia-600
     checked:border-transparent
     hover:border-fuchsia-400
     focus:outline-none
-    focus:ring-2 
-    focus:ring-fuchsia-500/50 
-    focus:ring-offset-0 
+    focus:ring-2
+    focus:ring-fuchsia-500/50
+    focus:ring-offset-0
     transition-all
     cursor-pointer
     relative
@@ -322,7 +326,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
 
         {/* Guided Patrols */}
         <div className="space-y-6 relative">
-          <button 
+          <button
             type="button"
             onClick={() => setShowPatrols(!showPatrols)}
             className="w-full flex items-center justify-between text-lg font-medium text-white/80 hover:text-white transition-colors"
@@ -338,7 +342,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
             </div>
             <span className="text-sm text-fuchsia-400">{formData.guidedPatrols.length} patrols</span>
           </button>
-          
+
           <div className={`space-y-6 ${showPatrols ? 'block' : 'hidden'}`}>
             <p className="mt-1 text-sm text-zinc-500 ml-10">Record of guided patrols completed by the trainee.</p>
             <div className="space-y-4">
@@ -386,7 +390,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                   ))}
                 </div>
               )}
-              
+
               <button
                 type="button"
                 onClick={addGuidedPatrol}
@@ -401,7 +405,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
 
         {/* Completed Assignments */}
         <div className="space-y-6 relative">
-          <button 
+          <button
             type="button"
             onClick={() => setShowAssignments(!showAssignments)}
             className="w-full flex items-center justify-between text-lg font-medium text-white/80 hover:text-white transition-colors"
@@ -465,7 +469,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                   ))}
                 </div>
               )}
-              
+
               <button
                 type="button"
                 onClick={addAssignment}
@@ -532,7 +536,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
             <h3>Evaluation</h3>
           </div>
           <p className="mt-1 text-sm text-zinc-500 ml-10">Results of written test and patrol evaluation.</p>
-          
+
           {/* Written Test */}
           <div className="space-y-6">
             <h4 className="text-sm font-medium text-white/60">Written Test</h4>
@@ -616,7 +620,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
         <div className="w-full p-4 bg-white/5 rounded-lg border border-white/10 mb-4">
           <div className="flex justify-between items-center mb-2">
             <p className="text-sm font-medium text-zinc-400">Topic Title</p>
-            <button 
+            <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
@@ -639,10 +643,10 @@ Handling Instructor: ${formData.patrolEvalInstructor}
             }}
             className="group relative flex-1 px-4 py-3 bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white rounded-lg transition-all hover:from-fuchsia-400 hover:to-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-black"
           >
-            <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer"></span>
+            <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
             Copy BBCode
           </button>
-          
+
           <a
             href="https://protech.gta.world/forum/posting.php?mode=post&f=91"
             target="_blank"
@@ -655,4 +659,4 @@ Handling Instructor: ${formData.patrolEvalInstructor}
       </form>
     </div>
   );
-} 
+}

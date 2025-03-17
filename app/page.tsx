@@ -1,165 +1,102 @@
+'use client';
+
 import { Link } from "@heroui/link";
 import Image from 'next/image';
 import { Suspense } from 'react'
+import { signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
+
+  const handleSignIn = () => {
+    signIn('discord', { callbackUrl: '/protech' });
+  };
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' });
+  };
+
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-lg">Loading...</div>
       </div>
     }>
-      <div className="relative w-full min-h-screen flex flex-col">
+      <div className="relative w-full h-screen flex flex-col overflow-hidden">
         <div className="fixed inset-0">
           <Image
             src="/images/resized.jpg"
             alt="Background"
             fill
             quality={50}
-            priority={false}
-            loading="lazy"
+            priority
             className="object-cover will-change-transform"
-            style={{ opacity: 0.7 }}
+            style={{ opacity: 0.5 }}
             sizes="100vw"
           />
         </div>
 
-        <div className="fixed inset-0 pointer-events-none">
-          <div 
-            className="absolute inset-0 bg-gradient-to-tr from-violet-500/10 via-fuchsia-500/10 to-violet-500/10 animate-float" 
-          />
-        </div>
-
-        <div className="fixed inset-0 bg-gradient-to-b from-zinc-50/70 to-white/70 dark:from-background/95 dark:to-background/75" />
-        
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-[1000px] h-[1000px] -top-40 -right-20 bg-violet-500/20 dark:bg-violet-500/30 rounded-full blur-[100px] opacity-20" />
-          <div className="absolute w-[1000px] h-[1000px] -bottom-40 -left-20 bg-fuchsia-500/20 dark:bg-fuchsia-500/30 rounded-full blur-[100px] opacity-20" />
-        </div>
+        <div className="fixed inset-0 bg-gradient-to-b from-zinc-900/90 to-black/80" />
 
         <div className="relative z-10 container mx-auto flex-1 flex flex-col">
-          <div className="flex flex-col flex-1">
-            <div className="flex flex-col items-center gap-16 max-w-5xl mx-auto py-32">
-              <div className="flex flex-col items-center gap-6 text-center">
-                <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
-                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-violet-500 animate-gradient">
-                    GTA World
-                  </span>
-                  <br />
-                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-100 dark:to-white">
-                    Report Generators
+          <div className="flex flex-col items-center justify-center h-screen">
+            <div className="flex flex-col items-center gap-8 text-center">
+              <div className="w-[120px] h-[120px]">
+                <Image
+                  src="/images/protech-logo.png"
+                  alt="ProTech Logo"
+                  width={120}
+                  height={120}
+                  className="w-full h-full object-contain"
+                  priority
+                />
+              </div>
+
+              <div className="space-y-3">
+                <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight">
+                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-violet-500">
+                    ProTech Reports
                   </span>
                 </h1>
-                <p className="max-w-lg text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  Create the most common report formats in various
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-fuchsia-500"> Legal Factions </span>
-                  with just a few clicks.
+                <p className="text-lg text-zinc-400">
+                  Sign in with Discord to access the report generator
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-5xl">
-                <Link 
-                  href="/protech"
-                  className="group relative overflow-hidden rounded-2xl p-8 bg-white/80 dark:bg-white/10 backdrop-blur-xl border border-black/5 dark:border-white/10 transition-transform duration-300 hover:scale-[1.02]"
+              {session ? (
+                <div className="flex flex-col gap-4 items-center">
+                  <Link
+                    href="/protech"
+                    className="flex items-center gap-3 px-8 py-4 bg-fuchsia-500 hover:bg-fuchsia-600 text-white rounded-lg font-medium transition-colors shadow-lg"
+                  >
+                    Access Reports
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="text-sm text-zinc-400 hover:text-zinc-300 transition-colors"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleSignIn}
+                  className="flex items-center gap-3 px-8 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white rounded-lg font-medium transition-colors shadow-lg hover:shadow-[#5865F2]/25"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="rounded-full bg-white dark:bg-zinc-800 p-1 shadow-[0_0_15px_rgba(255,255,255,0.5)] dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden">
-                        <div className="w-[50px] h-[50px] overflow-hidden flex items-center justify-center">
-                          <Image
-                            src="/images/protech-logo.png"
-                            alt="ProTech Logo"
-                            width={50}
-                            height={50}
-                            className="transform group-hover:scale-110 transition-transform duration-300 scale-[1.1]"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-heading font-bold text-zinc-800 dark:text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-fuchsia-500 group-hover:to-violet-500 transition-all">
-                          ProTech
-                        </h2>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400">ProTech Security Solutions</p>
-                      </div>
-                    </div>
-                    <p className="text-zinc-600 dark:text-zinc-300">Create incident reports, use of force reports, assignments, personnel files, and more.</p>
-                  </div>
-                </Link>
-
-                <div className="group relative overflow-hidden rounded-2xl p-8 bg-white/80 dark:bg-white/10 backdrop-blur-xl border border-black/5 dark:border-white/10 opacity-75 cursor-not-allowed">
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-4">
-                      <Image
-                        src="/images/lssd-badge.png"
-                        alt="LSSD Badge"
-                        width={50}
-                        height={50}
-                        className="rounded-full opacity-50"
-                      />
-                      <div>
-                        <h2 className="text-2xl font-heading font-bold text-zinc-400 dark:text-zinc-500">
-                          LSSD
-                          <span className="ml-2 text-sm text-fuchsia-500/70">Coming Soon</span>
-                        </h2>
-                        <p className="text-sm text-zinc-400 dark:text-zinc-500">Los Santos Sheriff's Department</p>
-                      </div>
-                    </div>
-                    <p className="text-zinc-400 dark:text-zinc-500">Generate patrol logs, deployment logs, use of force reports, supplemental reports, and more.</p>
-                  </div>
-                </div>
-
-                <div className="group relative overflow-hidden rounded-2xl p-8 bg-white/80 dark:bg-white/10 backdrop-blur-xl border border-black/5 dark:border-white/10 opacity-75 cursor-not-allowed">
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-4">
-                      <Image
-                        src="/images/lshs-icon.png"
-                        alt="LSHS"
-                        width={50}
-                        height={50}
-                        className="rounded-full opacity-50"
-                      />
-                      <div>
-                        <h2 className="text-2xl font-heading font-bold text-zinc-400 dark:text-zinc-500">
-                          LSHS
-                          <span className="ml-2 text-sm text-fuchsia-500/70">Coming Soon</span>
-                        </h2>
-                        <p className="text-sm text-zinc-400 dark:text-zinc-500">Los Santos High School</p>
-                      </div>
-                    </div>
-                    <p className="text-zinc-400 dark:text-zinc-500">Generate assignments, personnel files, report cards, position postings, and more.</p>
-                  </div>
-                </div>
-
-                <div className="group relative overflow-hidden rounded-2xl p-8 bg-white/80 dark:bg-white/10 backdrop-blur-xl border border-black/5 dark:border-white/10 opacity-75 cursor-not-allowed">
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-4">
-                      <Image
-                        src="/images/dao-badge.png"
-                        alt="LSDA"
-                        width={50}
-                        height={50}
-                        className="rounded-full opacity-50"
-                      />
-                      <div>
-                        <h2 className="text-2xl font-heading font-bold text-zinc-400 dark:text-zinc-500">
-                          LSDA
-                          <span className="ml-2 text-sm text-fuchsia-500/70">Coming Soon</span>
-                        </h2>
-                        <p className="text-sm text-zinc-400 dark:text-zinc-500">Los Santos District Attorney</p>
-                      </div>
-                    </div>
-                    <p className="text-zinc-400 dark:text-zinc-500">Generate patrol logs, deployment logs, use of force reports, supplemental reports, and more.</p>
-                  </div>
-                </div>
-              </div>
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                  </svg>
+                  Continue with Discord
+                </button>
+              )}
             </div>
 
-            <div className="text-center py-6 mt-auto">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            <div className="absolute bottom-6 inset-x-0 text-center">
+              <p className="text-sm text-zinc-500">
                 Made with{" "}
                 <span className="text-[#ff0000] dark:text-[#ff3333] text-base font-bold animate-heart-pulse inline-block">❤</span>
-                {" "}by <a href="https://forum.gta.world/en/profile/50132-brant/" target="_blank" className="hover:text-fuchsia-400 transition-colors">Brant</a> for the GTA World Community
+                {" "}by <a href="https://forum.gta.world/en/profile/50132-brant/" target="_blank" className="hover:text-fuchsia-400 transition-colors">Brant</a> for ProTech Security Solutions
               </p>
             </div>
           </div>
