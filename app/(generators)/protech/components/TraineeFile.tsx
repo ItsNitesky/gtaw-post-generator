@@ -102,7 +102,11 @@ export default function TraineeFile() {
 
 [divbox=#BF0000]
 [centre][size=140][color=#FFFFFF][b]Trainee File - #${formData.employeeId} - ${formData.employeeName}[/b][/color][/size][/centre]
-[/divbox][divboxl=transparent][size=90]In order to progress past the training stage in Protech Security Solutions, a trainee has to complete at least three satisfactory guided patrols with different non-probationary Security Officers or a Supervisor and above and complete at least two assignments with satisfactory results. Furthermore, the minimum attained qualification and license shall be a PF License. Once the first two sections below have been completed, the trainee shall request their written test and patrol evaluation using the respective format.[/size][/divboxl]
+[/divbox]
+
+[divboxl=transparent][size=90]In order to progress past the training stage in Protech Security Solutions, a trainee has to complete at least two satisfactory guided patrols with different non-probationary Security Officers or a Supervisor and above and complete at least two assignments with satisfactory results.
+Once the trainee has completed their guided patrols they may request their patrol evaluation. In order for a trainee to request their written exam they must complete the two sections below including the passing of their patrol evaluation.
+[/size][/divboxl]
 
 [legend=#BF0000, Employee Details]
 [size=115][b]Name[/b]: ${formData.employeeName}
@@ -117,33 +121,40 @@ export default function TraineeFile() {
 [*] The trainee received the necessary equipment: [${formData.hasEquipment ? 'cbc' : 'cb'}]
 [*] The trainee was given a tour around HQ: [${formData.hasTour ? 'cbc' : 'cb'}]
 [/list]
-[b]Amount of Guided Patrols[/b]:
+[b]Guided Patrols[/b]:
 [list]
 ${formData.guidedPatrols.map(patrol =>
-  `[*]${patrol.date} - Duration: ${patrol.duration} - ${patrol.officer}`
+  `[*] ${patrol.date} - Duration: ${patrol.duration} - ${patrol.officer}`
 ).join('\n')}
 [/list]
 [b]Completed Assignments[/b]:
-[list]${formData.assignments.map(assignment =>
-  `[*]${assignment.date} - ${assignment.location} - ${assignment.seniorOnScene}`
+[list]
+${formData.assignments.map(assignment =>
+  `[*] ${assignment.date} - ${assignment.location} - ${assignment.seniorOnScene}`
 ).join('\n')}
 [/list]
 [b]Attained Licenses[/b]:
-[size=85][i]Mark with [cbc] if applicable. [/i][/size]
+[size=85][i]Mark applicable licenses with [cbc].[/i][/size]
 [list]
-[*][${formData.hasPfLicense ? 'cbc' : 'cb'}]PF License (Mandatory)
-[*][${formData.hasGuardCard ? 'cbc' : 'cb'}]Guard Card (Optional)
-[*][${formData.hasCcwLicense ? 'cbc' : 'cb'}]CCW License (Optional)
-[/list][/size][/legend]
+[*] [${formData.hasPfLicense ? 'cbc' : 'cb'}] PF License
+[*] [${formData.hasGuardCard ? 'cbc' : 'cb'}] Guard Card
+[*] [${formData.hasCcwLicense ? 'cbc' : 'cb'}] CCW License
+[/list][/size]
+[/legend]
 
 [legend=#BF0000, Trainee Evaluation]
-[size=115][b]Written Test [color=${formData.writtenTestPassed ? '#408000' : '#BF0000'}]${formData.writtenTestPassed ? 'completed' : 'failed'}[/color][/b] on ${formData.writtenTestDate} with ${formData.writtenTestPoints}/24 points
+[size=115]
+[b]Written Test:[/b] [${formData.writtenTestPassed ? 'cbc' : 'cb'}] [b][color=#408000]Completed[/color][/b] / [${!formData.writtenTestPassed ? 'cbc' : 'cb'}] [b][color=#BF0000]Failed[/color][/b] on ${formData.writtenTestDate}
+Points Scored: ${formData.writtenTestPoints}
 Handling Instructor: ${formData.writtenTestInstructor}
 
-[b]Patrol Evaluation [color=${formData.patrolEvalPassed ? '#408000' : '#BF0000'}]${formData.patrolEvalPassed ? 'completed' : 'failed'}[/color][/b] on ${formData.patrolEvalDate}
+[b]Patrol Evaluation:[/b] [${formData.patrolEvalPassed ? 'cbc' : 'cb'}] [b][color=#408000]Completed[/color][/b] / [${!formData.patrolEvalPassed ? 'cbc' : 'cb'}] [b][color=#BF0000]Failed[/color][/b] on ${formData.patrolEvalDate}
 Handling Instructor: ${formData.patrolEvalInstructor}
 
-[/size][/legend]
+
+[/size]
+[/legend]
+
 [/divbox]`;
   };
 
