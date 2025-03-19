@@ -39,6 +39,17 @@ interface TraineeFileData {
   patrolEvalPassed: boolean;
 }
 
+const formatDateTime = (dateTimeString: string) => {
+  if (!dateTimeString) return '';
+
+  const date = new Date(dateTimeString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
 export default function TraineeFile() {
   const [formData, setFormData] = useState<TraineeFileData>({
     employeeId: "",
@@ -111,11 +122,11 @@ Once the trainee has completed their guided patrols they may request their patro
 [legend=#BF0000, Employee Details]
 [size=115][b]Name[/b]: ${formData.employeeName}
 [b]Employee ID[/b]: #${formData.employeeId}
-[b]Date of Hire[/b]: ${formData.dateOfHire}
+[b]Date of Hire[/b]: ${formatDateTime(formData.dateOfHire)}
 [/size][/legend]
 
 [legend=#BF0000, Training Progress]
-[size=115][b]Induction[/b] completed by ${formData.guidingOfficer} on ${formData.inductionDate}
+[size=115][b]Induction[/b] completed by ${formData.guidingOfficer} on ${formatDateTime(formData.inductionDate)}
 [list]
 [*] The trainee received an ID card/badge for access: [${formData.hasIdCard ? 'cbc' : 'cb'}]
 [*] The trainee received the necessary equipment: [${formData.hasEquipment ? 'cbc' : 'cb'}]
@@ -124,13 +135,13 @@ Once the trainee has completed their guided patrols they may request their patro
 [b]Guided Patrols[/b]:
 [list]
 ${formData.guidedPatrols.map(patrol =>
-  `[*] ${patrol.date} - Duration: ${patrol.duration} - ${patrol.officer}`
+  `[*] ${formatDateTime(patrol.date)} - Duration: ${patrol.duration} - ${patrol.officer}`
 ).join('\n')}
 [/list]
 [b]Completed Assignments[/b]:
 [list]
 ${formData.assignments.map(assignment =>
-  `[*] ${assignment.date} - ${assignment.location} - ${assignment.seniorOnScene}`
+  `[*] ${formatDateTime(assignment.date)} - ${assignment.location} - ${assignment.seniorOnScene}`
 ).join('\n')}
 [/list]
 [b]Attained Licenses[/b]:
@@ -144,11 +155,11 @@ ${formData.assignments.map(assignment =>
 
 [legend=#BF0000, Trainee Evaluation]
 [size=115]
-[b]Written Test:[/b] [${formData.writtenTestPassed ? 'cbc' : 'cb'}] [b][color=#408000]Completed[/color][/b] / [${!formData.writtenTestPassed ? 'cbc' : 'cb'}] [b][color=#BF0000]Failed[/color][/b] on ${formData.writtenTestDate}
+[b]Written Test:[/b] [${formData.writtenTestPassed ? 'cbc' : 'cb'}] [b][color=#408000]Completed[/color][/b] / [${!formData.writtenTestPassed ? 'cbc' : 'cb'}] [b][color=#BF0000]Failed[/color][/b] on ${formatDateTime(formData.writtenTestDate)}
 Points Scored: ${formData.writtenTestPoints}
 Handling Instructor: ${formData.writtenTestInstructor}
 
-[b]Patrol Evaluation:[/b] [${formData.patrolEvalPassed ? 'cbc' : 'cb'}] [b][color=#408000]Completed[/color][/b] / [${!formData.patrolEvalPassed ? 'cbc' : 'cb'}] [b][color=#BF0000]Failed[/color][/b] on ${formData.patrolEvalDate}
+[b]Patrol Evaluation:[/b] [${formData.patrolEvalPassed ? 'cbc' : 'cb'}] [b][color=#408000]Completed[/color][/b] / [${!formData.patrolEvalPassed ? 'cbc' : 'cb'}] [b][color=#BF0000]Failed[/color][/b] on ${formatDateTime(formData.patrolEvalDate)}
 Handling Instructor: ${formData.patrolEvalInstructor}
 
 
@@ -259,12 +270,11 @@ Handling Instructor: ${formData.patrolEvalInstructor}
             />
           </div>
           <input
-            type="text"
+            type="datetime-local"
             name="dateOfHire"
             value={formData.dateOfHire}
             onChange={handleChange}
-            placeholder="Date of Hire (DD/MMM/YYYY)"
-            className={inputClass}
+            className={`${inputClass} ${!formData.dateOfHire && 'text-zinc-500'}`}
           />
         </div>
 
@@ -287,12 +297,11 @@ Handling Instructor: ${formData.patrolEvalInstructor}
               className={inputClass}
             />
             <input
-              type="text"
+              type="datetime-local"
               name="inductionDate"
               value={formData.inductionDate}
               onChange={handleChange}
-              placeholder="Induction Date (DD/MMM/YYYY)"
-              className={inputClass}
+              className={`${inputClass} ${!formData.inductionDate && 'text-zinc-500'}`}
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
@@ -374,12 +383,11 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                         <span className="text-sm font-medium text-white/60">Patrol {index + 1}</span>
                       </div>
                       <input
-                        type="text"
+                        type="datetime-local"
                         name={`guidedPatrols.${index}.date`}
                         value={patrol.date}
                         onChange={handleChange}
-                        placeholder="Date (DD/MMM/YYYY)"
-                        className={inputClass}
+                        className={`${inputClass} ${!patrol.date && 'text-zinc-500'}`}
                       />
                       <input
                         type="text"
@@ -453,12 +461,11 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                         <span className="text-sm font-medium text-white/60">Assignment {index + 1}</span>
                       </div>
                       <input
-                        type="text"
+                        type="datetime-local"
                         name={`assignments.${index}.date`}
                         value={assignment.date}
                         onChange={handleChange}
-                        placeholder="Date (DD/MMM/YYYY)"
-                        className={inputClass}
+                        className={`${inputClass} ${!assignment.date && 'text-zinc-500'}`}
                       />
                       <input
                         type="text"
@@ -510,7 +517,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                 className={checkboxClass}
               />
               <span className="text-sm text-white/70 group-hover:text-white/90 transition-colors">
-                PF License (Mandatory)
+                PF License
               </span>
             </label>
             <label className="flex items-center gap-3 group cursor-pointer">
@@ -522,7 +529,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                 className={checkboxClass}
               />
               <span className="text-sm text-white/70 group-hover:text-white/90 transition-colors">
-                Guard Card (Optional)
+                Guard Card
               </span>
             </label>
             <label className="flex items-center gap-3 group cursor-pointer">
@@ -534,7 +541,7 @@ Handling Instructor: ${formData.patrolEvalInstructor}
                 className={checkboxClass}
               />
               <span className="text-sm text-white/70 group-hover:text-white/90 transition-colors">
-                CCW License (Optional)
+                CCW License
               </span>
             </label>
           </div>
@@ -553,12 +560,11 @@ Handling Instructor: ${formData.patrolEvalInstructor}
             <h4 className="text-sm font-medium text-white/60">Written Test</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <input
-                type="text"
+                type="datetime-local"
                 name="writtenTestDate"
                 value={formData.writtenTestDate}
                 onChange={handleChange}
-                placeholder="Test Date (DD/MMM/YYYY)"
-                className={inputClass}
+                className={`${inputClass} ${!formData.writtenTestDate && 'text-zinc-500'}`}
               />
               <input
                 type="text"
@@ -596,12 +602,11 @@ Handling Instructor: ${formData.patrolEvalInstructor}
             <h4 className="text-sm font-medium text-white/60">Patrol Evaluation</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <input
-                type="text"
+                type="datetime-local"
                 name="patrolEvalDate"
                 value={formData.patrolEvalDate}
                 onChange={handleChange}
-                placeholder="Evaluation Date (DD/MMM/YYYY)"
-                className={inputClass}
+                className={`${inputClass} ${!formData.patrolEvalDate && 'text-zinc-500'}`}
               />
               <input
                 type="text"
