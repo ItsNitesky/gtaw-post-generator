@@ -36,7 +36,7 @@ const EQUIPMENT_LIST = {
   "* ProTech 4K 360° Dome Interior CCTV Camera": 15000,
   "ProTech 4K Fixed Exterior CCTV Camera": 1000,
   "ProTech 1080p 360° Dome Exterior CCTV Camera": 1500,
-  "ProTech 4K 360° Dome Exterior CCTV Camera": 15000,
+  "* ProTech 4K 360° Dome Exterior CCTV Camera": 15000,
   "ProTech 1080p Dash Cam w/ 128GB Micro SD": 1000,
   "ProTech 4K Action Camera w/ 128GB Micro SD": 1500,
   "ProTech Digital Video Recorder w/ 12TB Storage": 500,
@@ -87,6 +87,7 @@ export default function TechnicianRequest() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+
     if (name === 'eomPoints') return;
 
     setFormData(prev => ({
@@ -97,6 +98,7 @@ export default function TechnicianRequest() {
 
   const getAlarmPrice = () => {
     if (!formData.alarmSubscription) return 0;
+
     return ALARM_PRICES[formData.alarmSubscription as keyof typeof ALARM_PRICES] || 0;
   };
 
@@ -131,6 +133,7 @@ export default function TechnicianRequest() {
         if (i === index) {
           return { ...item, [field]: value };
         }
+
         return item;
       })
     }));
@@ -195,6 +198,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
 
   const generateTopicTitle = () => {
     if (!formData.clientName || !formData.location) return "Installation & Service Overview";
+
     return `${formData.location} - ${formData.clientName}`;
   };
 
@@ -547,7 +551,7 @@ ${formData.equipment.map(item => `[indent]2[/indent]${item.name} | ${item.quanti
               }}
               className="group relative flex-1 px-4 py-3 bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white rounded-lg transition-all hover:from-fuchsia-400 hover:to-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-black whitespace-nowrap"
             >
-              <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer"></span>
+              <span className="absolute inset-0 w-full h-full rounded-lg bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
               Copy BBCode
             </button>
 
