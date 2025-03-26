@@ -181,7 +181,7 @@ ${formData.incidents.map(incident => incident.time || incident.description ? `[l
 
 [table]
 [tr]
-[td][b][font=Arial]APPEARANCE[/font][/b] [color=white]---------------------------------------------------------------------------------------[/color]
+[td][b][font=Arial]APPEARANCE[/font][/b] [color=white]---------------------------------------------------------------------------------------------[/color]
 [td][b]1[/b][/td][td][b]2[/b][/td][td][b]3[/b][/td][td][b]4[/b][/td][td][b]N/O[/b][/td]
 [/tr]
 [tr]
