@@ -207,7 +207,7 @@ ${formData.requestInfo}
             </button>
             
             <a
-              href="https://protech.gta.world/forum/posting.php?mode=post&f=91"
+              href="https://protech.gta.world/forum/viewforum.php?f=26"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-zinc-700 text-white rounded-lg hover:bg-zinc-600 transition-all transform hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-black"
