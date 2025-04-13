@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Image from 'next/image';
+
 import { trackEvent } from '../../../utils/analytics';
 
 // Dynamically import components with no SSR
@@ -70,6 +71,7 @@ export default function ProtechPage() {
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
+
       setCurrentUTC(now.toLocaleString('en-GB', {
         timeZone: 'UTC',
         day: '2-digit',
@@ -94,6 +96,7 @@ export default function ProtechPage() {
       .then(text => {
         // Remove any UTF-8 BOM and normalize line endings
         const cleanText = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+
         setChangelog(cleanText);
       })
       .catch(err => {
@@ -218,8 +221,8 @@ export default function ProtechPage() {
         <div className="flex flex-col items-center gap-4">
           <div className="w-24 h-24 relative">
             <Image
-              src="/images/protech-logo.png"
-              alt="ProTech Logo"
+              src="/images/dao-badge.png"
+              alt="LSDA Logo"
               fill
               className="object-contain"
             />
@@ -227,7 +230,7 @@ export default function ProtechPage() {
           <div className="text-center">
             <h1 className="text-3xl font-heading font-bold">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-violet-500 animate-gradient">
-                ProTech
+                LSDA
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-400 dark:from-zinc-300 dark:to-zinc-400">
                 {" "}Report Generator

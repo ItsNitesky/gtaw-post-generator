@@ -44,8 +44,8 @@ export default function Home() {
             <div className="flex flex-col items-center gap-8 text-center">
               <div className="w-[120px] h-[120px]">
                 <Image
-                  src="/images/protech-logo.png"
-                  alt="ProTech Logo"
+                  src="/images/dao-badge.png"
+                  alt="LSDA Logo"
                   width={120}
                   height={120}
                   className="w-full h-full object-contain"
@@ -56,7 +56,7 @@ export default function Home() {
               <div className="space-y-3">
                 <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight">
                   <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-violet-500">
-                    ProTech Reports
+                    LSDA Report Generator
                   </span>
                 </h1>
                 <p className="text-lg text-zinc-400">
@@ -96,7 +96,7 @@ export default function Home() {
               <p className="text-sm text-zinc-500">
                 Made with{" "}
                 <span className="text-[#ff0000] dark:text-[#ff3333] text-base font-bold animate-heart-pulse inline-block">❤</span>
-                {" "}by <a href="https://forum.gta.world/en/profile/50132-brant/" target="_blank" className="hover:text-fuchsia-400 transition-colors">Brant</a> for ProTech Security Solutions
+                {" "}by <a href="https://forum.gta.world/en/profile/50132-brant/" target="_blank" className="hover:text-fuchsia-400 transition-colors">Brant</a> for Los Santos District Attorney's Office
               </p>
             </div>
           </div>
